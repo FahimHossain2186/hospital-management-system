@@ -97,9 +97,10 @@ typedef struct
 
 typedef struct 
 {
-    int     barcodeID;
+    int     medicineID;
     char    name[50];
-    char    group[50];
+    char    group[100];
+    char    company[20];
     int     quantity;
     //float   price;          Future Update: Billing System
 
