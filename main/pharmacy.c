@@ -8,6 +8,8 @@ typedef struct
 {
     int     medicineID;
     char    name[50];
+    char    dosageForm[20];
+    char    genericName[50];
     char    group[100];
     char    company[40];
     int     quantity;
@@ -34,16 +36,26 @@ void viewDispensary(){
         return;
     }    
 
-    printf("\nID | Name | Quantity | Price\n");
-    printf("--------------------------------\n");
+    printf("\nID    | Name       | Dosage Form | Generic Name                                | Group                                      | Company                      | Quantity\n");
+    printf("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     
-    char line[100];
+    char line[256];
     while (fgets(line, sizeof(line), file)) {
+        
+        if (strlen(line) <= 1) {        // Skip empty lines
+            continue;
+        }
+
         Medicine med;
-        sscanf(line, "%d,%49[^,],%99[^,],%39[^,],%d", &med.medicineID, med.name, med.group, med.company, &med.quantity);
-        printf("%d | %s | %s | %s | %d \n", med.medicineID, med.name, med.group, med.company, med.quantity);
+
+        if (sscanf(line, "%d, %49[^,], %19[^,], %49[^,], %99[^,], %39[^,], %d", &med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, &med.quantity) == 7)
+            printf("%d | %s | %s | %s | %s | %s | %d \n", med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, med.quantity);
+        
     }
+
     fclose(file);
+
+    printf("\n\n");
 }
 
 void dispensary(){
