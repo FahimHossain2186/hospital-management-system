@@ -1,9 +1,9 @@
-11000, Cardoprin​ , Tablet     , Aspirin                                    , Antiplatelet                              , Beximco Pharmaceuticals Ltd ,        0
-11001, Clopid    , Tablet     , Clopidogrel​                                , Antiplatelet​                              , Drug International Ltd​      ,        0
-11002, Rosutin​   , Tablet     , Rosuvastatin​                               , Statin​                                    , Beximco Pharmaceuticals Ltd ,        0
-12000, Losart​    , Tablet     , Losartan Potassium​                         , Angiotensin II Receptor Blocker (ARB)​     , ACME Laboratories Ltd       ,        0
-12001, Betaloc​   , Tablet     , Metoprolol​                                 , Beta-Blocker​                              , Drug International Ltd​      ,        0
-12002, Amdocal​   , Tablet     , Amlodipine​                                 , Calcium Channel Blocker (CCB)​             , Beximco Pharmaceuticals Ltd ,        0
+11000, Cardoprin , Tablet     , Aspirin                                    , Antiplatelet                              , Beximco Pharmaceuticals Ltd ,        0
+11001, Clopid    , Tablet     , Clopidogrel​                                , Antiplatelet                              , Drug International Ltd      ,        0
+11002, Rosutin   , Tablet     , Rosuvastatin​                               , Statin                                    , Beximco Pharmaceuticals Ltd ,        0
+12000, Losart    , Tablet     , Losartan Potassium​                         , Angiotensin II Receptor Blocker (ARB)     , ACME Laboratories Ltd       ,        0
+12001, Betaloc   , Tablet     , Metoprolol​                                 , Beta-Blocker                              , Drug International Ltd      ,        0
+12002, Amdocal   , Tablet     , Amlodipine​                                 , Calcium Channel Blocker (CCB)             , Beximco Pharmaceuticals Ltd ,        0
 21000, Tegretol  , Tablet     , Carbamazepine                              , Anticonvulsant                            , Novartis (Bangladesh) Ltd   ,        0
 21001, Valex CR  , Tablet     , Sodium Valproate                           , Anticonvulsant                            , Incepta Pharmaceutical Ltd  ,        0
 22000, Gabastat  , Tablet     , Gabapentin                                 , Anticonvulsant (Used for Neuropathic pain), Square Pharmaceuticals PLC  ,        0
@@ -14,14 +14,14 @@
 32000, Folison   , Tablet     , Folic Acid                                 , Vitamin                                   , Jayson Pharmaceutical Ltd   ,        0
 32001, Syntocin  , Injection  , Oxytocin                                   , Uterotonic (For Labor & PPH Management)   , Techno Drugs Ltd            ,        0
 32002, Ferol TR  , Tablet     , Ferrous Sulfate + Folic Acid + Zinc        , Iron Supplement                           , Opsonin Pharma Ltd          ,        0
-41000, Seclo     , Capsule    , Omeprazole                                 , Proton Pump Inhibitor​                     , Square Pharmaceuticals PLC​  ,        0
-41001, Finix​     , Tablet     , Rabeprazole​                                , Proton Pump Inhibitor​                     , Opsonin Pharma Ltd          ,        0
-42000, Motigut​   , Tablet     , Domperidone​                                , Prokinetic​                                , Square Pharmaceuticals PLC​  ,        0
-42001, Imotil    , Capsule    , Loperamide​                                 , Antidiarrheal​                             , Square Pharmaceuticals PLC​  ,        0
-43000, Hepaclin ​ , Oral Powder, L-Ornithine L-Aspartate​                    , Hepatoprotective                          , ​Incepta Pharmaceuticals Ltd ,        0
-51000, Monas​     , Tablet     , Montelukast Sodium                         , Leukotriene Receptor Antagonist           , ACME Laboratories Ltd       ,        0
-51001, Azmasol​   , Inhaler    , Salbutamol                                 , Beta-2 Agonist                            , Beximco Pharmaceuticals Ltd ,        0
-51002, Fexo​      , Tablet     , Fexofenadine Hydrochloride                 , Antihistamine                             , Square Pharmaceuticals PLC  ,        0
+41000, Seclo     , Capsule    , Omeprazole                                 , Proton Pump Inhibitor                     , Square Pharmaceuticals PLC  ,        0
+41001, Finix     , Tablet     , Rabeprazole​                                , Proton Pump Inhibitor                     , Opsonin Pharma Ltd          ,        0
+42000, Motigut   , Tablet     , Domperidone​                                , Prokinetic                                , Square Pharmaceuticals PLC  ,        0
+42001, Imotil    , Capsule    , Loperamide​                                 , Antidiarrheal                             , Square Pharmaceuticals PLC  ,        0
+43000, Hepaclin  , Oral Powder, L-Ornithine L-Aspartate​                    , Hepatoprotective                          , Incepta Pharmaceuticals Ltd ,        0
+51000, Monas     , Tablet     , Montelukast Sodium                         , Leukotriene Receptor Antagonist           , ACME Laboratories Ltd       ,        0
+51001, Azmasol   , Inhaler    , Salbutamol                                 , Beta-2 Agonist                            , Beximco Pharmaceuticals Ltd ,        0
+51002, Fexo      , Tablet     , Fexofenadine Hydrochloride                 , Antihistamine                             , Square Pharmaceuticals PLC  ,        0
 52000, Bexitrol F, Inhaler    , Salmeterol + Fluticasone                   , LABA + Corticosteroid                     , Beximco Pharmaceuticals Ltd ,        0
 52001, Budemet   , Inhaler    , Budesonide +  Formoterol Fumarate Dihydrate, Inhaled Corticosteroid                    , Incepta Pharmaceuticals Ltd ,        0
      

@@ -27,6 +27,7 @@ typedef struct
     int     age;
     char    gender[10];
     Address address;
+    char    disease[30];
     char    contact[20];
     int     password;
 
