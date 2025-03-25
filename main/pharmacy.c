@@ -17,12 +17,41 @@ typedef struct
 
 } Medicine;
 
+void generateMedicineID(){
+
+    char    medicineName[30];
+    char    medicineDept[40];
+
+    printf("Enter the medicine name:\t");
+    scanf(" %[^\n]", medicineName);
+    printf("Enter the medicine department:\t");
+    scanf(" %[^\n]", medicineDept);
+
+    FILE *dispensaryFile = fopen("dispensary.csv", "r");
+    char line[200];
+
+    if(dispensaryFile){
+
+        while (fgets(line, sizeof(line), dispensaryFile))
+        {
+            Medicine med;
+            sscanf(line, "%d , %49[^,]", &med.medicineID, &med.name);
+
+            if(strcmp(med.name, medicineName) == 0){
+
+                
+            }
+        }
+        
+    }
+}
+
 void medicineCodes(){
 
     char department[30];
-    char  departmentCode;
+    char departmentCode;
     char subDivisions[40];
-    char  subDivisionsCode;
+    char subDivisionsCode;
 
     FILE *file = fopen("medicine-characteristics.csv", "r");
 
@@ -54,7 +83,14 @@ void medicineCodes(){
 }
 
 void addNewMedicine(){
-    //aa
+    
+    FILE *file = fopen(FILE_NAME, "r+");
+
+    if(!file){
+        printf("No records found\n");
+        return;
+    }
+
 }
 
 void main();
