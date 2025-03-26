@@ -1,6 +1,28 @@
 #include <stdio.h>
 #include <time.h>
 
+typedef struct{
+
+    int year;
+    int month;
+    int day;
+
+}Time;
+
+Time currentTime(){
+
+    time_t t = time(NULL);
+    struct tm date = *localtime(&t);
+
+    Time time;
+
+    time.year = date.tm_year + 1900;
+    time.month = date.tm_mon + 1;
+    time.day = date.tm_mday;
+    
+    return time;
+}
+
 typedef struct 
 {
     int     year;

@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 typedef struct{
 
@@ -11,6 +12,43 @@ typedef struct{
     char prescription[300];
 
 }MedicalRecord;
+
+typedef struct{ 
+
+    int year;
+    int month;
+    int day;
+
+}Time;
+
+Time currentTime(){ // Reference --> GeeksforGeeks "How can I return multiple values from a function?" {https://www.geeksforgeeks.org/how-can-i-return-multiple-values-from-a-function/}
+
+    // Reference --> "How to get current time and date in C" by CodeVault {https://www.youtube.com/watch?v=i1MeXMciy6Q}
+
+    time_t t = time(NULL);
+    struct tm date = *localtime(&t); 
+
+    Time time;
+
+    time.year = date.tm_year + 1900;
+    time.month = date.tm_mon + 1;
+    time.day = date.tm_mday;
+    
+    return time;
+}
+
+int generateRecordID(){
+
+    Time time = getCurrentTime();
+
+    int id;
+
+    id = (time.year - 2000) * 10000 + time.month * 100 + time.day
+
+    FILE *file = fopen();
+
+    return 
+}
 
 void addRecord(){
 
@@ -53,8 +91,8 @@ FILE *file = fopen("record.csv", "r");
     int searchingRecordID;
     int found = 0;
 
-    printf("Enter Patient ID :\t");                   scanf("%d",&searchingPatientID);
-    printf("Enter Record ID :\t");                    scanf("%d",&searchingRecordID);
+    printf("Enter Patient ID :\t");                     scanf("%d",&searchingPatientID);
+    printf("Enter Record ID :\t");                      scanf("%d",&searchingRecordID);
 
     char line[200];
 
@@ -91,12 +129,9 @@ int prescription() {
 
     while (1) {
 
-        printf("\n1. Add Medical Record\n");
-
+        printf("1. Add Medical Record\n");
         printf("2. View Medical Record\n");
-
         printf("3. Exit\n");
-
         printf("Enter choice: ");
 
         scanf("%d", &choice);
@@ -114,6 +149,7 @@ int prescription() {
                 printf("Invalid choice! Try again.\n");
         }
     }
+
     return 0;
 }
 

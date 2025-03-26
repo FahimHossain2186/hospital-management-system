@@ -1,0 +1,22 @@
+ 1, Cardiology                        , Heart conditions
+ 2, Neurology                         , Neurological conditions
+ 3, Gynecology & Obstetrics           , Women's health and childbirth
+ 4, Gastroenterology                  , Digestive system conditions
+ 5, Pulmonology                       , Lung conditions
+ 6, Pathology                         , Study of diseases
+ 7, Medicine                          , General medical practice
+ 8, Surgery                           , Surgical procedures
+ 9, Pediatrics                        , Children's health
+10, Dermatology                       , Skin conditions
+11, Ophthalmology                     , Eye conditions
+12, Otorhinolaryngology (ENT)         , Ear nose and throat conditions
+13, Anesthesiology                    , Pain management and anesthesia
+14, Radiology & Imaging               , Medical imaging techniques
+15, Oncology                          , Cancer treatment
+16, Nephrology                        , Kidney conditions
+17, Endocrinology                     , Hormone disorders
+18, Urology                           , Urinary system conditions
+19, Burn & Plastic Surgery            , Burn injuries and reconstructive surgery
+20, Physical Medicine & Rehabilitation, Rehabilitation after injury or illness
+21, Dental/Dental Unit                , Dental care
+22, Venereology                       , Sexually transmitted infections
