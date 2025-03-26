@@ -23,19 +23,21 @@ void addRecord(){
         return;
     }
 
-    printf("Enter patientID: ");                            scanf("%d",&record.patientID);
-    printf("Enter record ID: ");                            scanf("%d",&record.recordID);
+    printf("Enter patientID: \t\t");                            scanf("%d",&record.patientID);
+    printf("Enter record ID: \t\t");                            scanf("%d",&record.recordID);
 
-    printf("Enter report: ");                               scanf(" %[^\n]",record.reports);
-    printf("Enter Treatment: ");                            scanf(" %[^\n]",record.prescription);
-    printf("Enter Date (yyyy-MM-DD; ");                     scanf(" %[^\n]",record.date);
-    printf("Enter prescription: ");                         scanf(" %[^\n]",record.prescription);
+    printf("Enter report: \t\t\t");                               scanf(" %[^\n]",record.reports);
+    printf("Enter Treatment: \t\t");                            scanf(" %[^\n]",record.prescription);
+    printf("Enter Date (yyyy-MM-DD; \t");                     scanf(" %[^\n]",record.date);
+    printf("Enter prescription: \t\t");                         scanf(" %[^\n]",record.prescription);
 
     fprintf(file, "%d, %d, %s, %s, %s, %s\n", record.recordID, record.patientID, record.reports, record.treatment, record.date, record.prescription);
 
     fclose(file);
+
     printf("Record added successfully");
 }
+
 void viewMedicalRecord(){
 
 MedicalRecord record;
@@ -47,42 +49,43 @@ FILE *file = fopen("record.csv", "r");
         return;
     }
 
-     int searchingPatientID;
-     int searchingrecordID;
-     int found = 0;
+    int searchingPatientID;
+    int searchingRecordID;
+    int found = 0;
 
-    printf("Enter patientID: ");                    scanf("%d",&searchingPatientID);
-    printf("Enter record ID: ");                    scanf("%d",&searchingrecordID);
+    printf("Enter Patient ID :\t");                   scanf("%d",&searchingPatientID);
+    printf("Enter Record ID :\t");                    scanf("%d",&searchingRecordID);
 
-    while (fscanf(file, "%d, %d, %s, %s, %s, %s\n", &record.patientID, &record.recordID, record.reports,record.treatment, record.date, record.prescription) != EOF)
+    char line[200];
 
-    if (record.patientID == searchingPatientID && record.recordID == searchingrecordID) {
-        printf("\nMedical Record Found\n");
+    while (fgets(line, sizeof(line), file)) {
 
-        printf("Patient ID: %d\n", record.patientID);
+        fscanf(file, "%d, %d, %s, %s, %s, %s\n", &record.patientID, &record.recordID, record.reports,record.treatment, record.date, record.prescription);
 
-        printf("Record ID: %d\n", record.recordID);
+        if (record.patientID == searchingPatientID && record.recordID == searchingRecordID) {
+            
+            printf("\nMedical Record Found\n");
+            printf("Patient ID:     %d\n", record.patientID);
+            printf("Record ID:      %d\n", record.recordID);
+            printf("Reports:        %s\n", record.reports);
+            printf("Treatment:      %s\n", record.treatment);
+            printf("Date:           %s\n", record.date);
+            printf("Prescription:   %s\n", record.prescription);
 
-        printf("Reports: %s\n", record.reports);
-
-        printf("Treatment: %s\n", record.treatment);
-
-        printf("Date: %s\n", record.date);
-
-        printf("Prescription: %s\n", record.prescription);
-        found = 1;
-        break;
+            found = 1;
+            break;
+        }
     }
 
     if (!found) {
-        printf("No record found for Patient ID %d and Record ID %d\n", searchingPatientID, searchingrecordID);
+        printf("No record found for Patient ID %d and Record ID %d\n", searchingPatientID, searchingRecordID);
     }
 
     fclose(file);
 }
 
 
-int main() {
+int prescription() {
 
     int choice;
 
@@ -112,4 +115,9 @@ int main() {
         }
     }
     return 0;
+}
+
+int main(){
+
+    prescription();
 }
