@@ -17,10 +17,13 @@ typedef struct
 
 } Medicine;
 
+void addNewMedicine();
+
 void generateMedicineID(){
 
     char    medicineName[30];
     char    medicineDept[40];
+    char    medicineSubDept[40];
 
     printf("Enter the medicine name:\t");
     scanf(" %[^\n]", medicineName);
@@ -39,11 +42,32 @@ void generateMedicineID(){
 
             if(strcmp(med.name, medicineName) == 0){
 
+                char choice;
+                printf("Medicine already exists in the database.\n");
+                printf("Do you want to update the quantity of that medicine?\n");
                 
-            }
+                choice = getchar();
+
+                if(choice == 'y' || choice == 'Y'){
+                    addNewMedicine();
+                    return;
+                }
+                else{
+                    return;
+                }
+            }    
         }
-        
     }
+            
+    fclose(dispensaryFile);
+
+    printf("Enter Department name:   \t");
+    scanf(" [^\n]", medicineDept);
+    printf("Enter Sub-Divisions name:\t");
+    scanf(" [^\n]", medicineSubDept);
+
+    
+
 }
 
 void medicineCodes(){
@@ -108,7 +132,7 @@ void viewDispensary(){
         return;
     }    
 
-    printf("\nID    | Name       | Dosage Form | Generic Name                                | Group                                      | Company                      | Quantity\n");
+    printf("\nID    | Name       | Dosage Form | Generic Name                                | Group                                      | Company                     | Quantity\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     
     char line[300];
