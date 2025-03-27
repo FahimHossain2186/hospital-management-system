@@ -2,18 +2,22 @@
 #include <string.h>
 #include <time.h>
 
+typedef struct
+{
+    int     patientID;
+    char    patientName[50];
+
+    int     appointmentID;
+
+    char    doctorDept[25];
+    char    doctorName[50];
+    char    diagnosis[500];
+    char    prescription[500];
+    char    date[15];
+
+} MedicalRecord;
+
 typedef struct{
-
-    int recordID;
-    int patientID;
-    char reports[300];
-    char treatment[300];
-    char date[20];
-    char prescription[300];
-
-}MedicalRecord;
-
-typedef struct{ 
 
     int year;
     int month;
@@ -26,28 +30,28 @@ Time currentTime(){ // Reference --> GeeksforGeeks "How can I return multiple va
     // Reference --> "How to get current time and date in C" by CodeVault {https://www.youtube.com/watch?v=i1MeXMciy6Q}
 
     time_t t = time(NULL);
-    struct tm date = *localtime(&t); 
+    struct tm date = *localtime(&t);
 
     Time time;
 
     time.year = date.tm_year + 1900;
     time.month = date.tm_mon + 1;
     time.day = date.tm_mday;
-    
+
     return time;
 }
 
-int generateRecordID(){
+int generateappointmentID(){
 
-    Time time = getCurrentTime();
+    Time time = currentTime();
 
     int id;
 
-    id = (time.year - 2000) * 10000 + time.month * 100 + time.day
+    id = (time.year - 2000) * 10000 + time.month * 100 + time.day;
 
-    FILE *file = fopen();
+    FILE *file = fopen("record.csv", "a");
 
-    return 
+    return;
 }
 
 void addRecord(){
@@ -61,15 +65,18 @@ void addRecord(){
         return;
     }
 
-    printf("Enter patientID: \t");                      scanf("%d",&record.patientID);
-    printf("Enter record ID: \t");                      scanf("%d",&record.recordID);
+    printf("Enter     patientID: \t");                          scanf("%d",&record.patientID);
+    printf("Enter     appointmentID: \t");                      scanf("%d",&record.appointmentID);
 
-    printf("Enter report: \t\t");                       scanf(" %[^\n]",record.reports);
-    printf("Enter Treatment: \t");                      scanf(" %[^\n]",record.prescription);
-    printf("Enter Date (yyyy-MM-DD:\t");                scanf(" %[^\n]",record.date);
-    printf("Enter prescription: \t");                   scanf(" %[^\n]",record.prescription);
+    printf("Enter   patient    name: \t\t");                    scanf(" %[^\n]",record.patientName);
+    printf("Enter   doctor's   department: \t");                scanf(" %[^\n]",record.doctorDept);
+    printf("Enter   doctor     name:\t");                       scanf(" %[^\n]",record.doctorName);
+    printf("Enter   diagnosis: \t");                            scanf(" %[^\n]",record.diagnosis);
+    printf("Enter   date: \t");                                 scanf(" %[^\n]",record.date);
+    printf("Enter   prescription: \t");                         scanf(" %[^\n]",record.prescription);
 
-    fprintf(file, "%d, %d, %s, %s, %s, %s\n", record.recordID, record.patientID, record.reports, record.treatment, record.date, record.prescription);
+    fprintf(file, "%d, %d, %s, %s, %s, %s, %s, %s\n", record.patientID, record.appointmentID, record.patientName, record.doctorDept, record.doctorName
+            , record.diagnosis ,record.date ,record.prescription);
 
     fclose(file);
 
@@ -87,28 +94,31 @@ FILE *file = fopen("record.csv", "r");
         return;
     }
 
-    int searchingPatientID;
-    int searchingRecordID;
+    int searchingpatientID;
+    int searchingappointID;
     int found = 0;
 
-    printf("Enter Patient ID :\t");                     scanf("%d",&searchingPatientID);
-    printf("Enter Record ID :\t");                      scanf("%d",&searchingRecordID);
+    printf("Enter patientID :\t");                          scanf("%d",&searchingpatientID);
+    printf("Enter appointmentID :\t");                      scanf("%d",&searchingappointID);
 
     char line[200];
 
     while (fgets(line, sizeof(line), file)) {
 
-        fscanf(file, "%d, %d, %s, %s, %s, %s\n", &record.patientID, &record.recordID, record.reports,record.treatment, record.date, record.prescription);
+        fscanf(file, "%d, %d, %s, %s, %s, %s ,%s ,%s\n", &record.patientID, &record.appointmentID, record.doctorDept,record.doctorName
+               , record.diagnosis, record.date ,record.prescription);
 
-        if (record.patientID == searchingPatientID && record.recordID == searchingRecordID) {
-            
+        if (record.patientID == searchingpatientID && record.appointmentID == searchingappointID) {
+
             printf("\nMedical Record Found\n");
-            printf("Patient ID:     %d\n", record.patientID);
-            printf("Record ID:      %d\n", record.recordID);
-            printf("Reports:        %s\n", record.reports);
-            printf("Treatment:      %s\n", record.treatment);
-            printf("Date:           %s\n", record.date);
-            printf("Prescription:   %s\n", record.prescription);
+            printf("Patient ID:                 %d\n", record.patientID);
+            printf("Appoinment ID:              %d\n", record.appointmentID);
+            printf("Doctor's Department:        %s\n", record.doctorDept);
+            printf("Doctor's Name:              %s\n", record.doctorName);
+            printf("Diagnosis:                  %s\n", record.diagnosis);
+            printf("Date(yyyy-mm-dd):           %s\n", record.date);
+            printf("Prescription:               %s\n", record.prescription);
+
 
             found = 1;
             break;
@@ -116,7 +126,7 @@ FILE *file = fopen("record.csv", "r");
     }
 
     if (!found) {
-        printf("\nNo record found for Patient ID %d and Record ID %d\n", searchingPatientID, searchingRecordID);
+        printf("\nNo record found for Patient ID %d and Appointment ID %d\n", searchingpatientID, searchingappointID);
     }
 
     fclose(file);
