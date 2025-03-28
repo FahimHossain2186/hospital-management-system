@@ -1,15 +1,13 @@
-<<<<<<< HEAD
-     98,   12345678,             , , \                              , 
-1234567,    1234567, abarthdgh     , , \                              , 
- 993344, 1696624484, xcercise daily, , need to maintain blood pressure, 2025-05-11
-578323, 7842, adsuid, ö, fdjkfwdi, 2023-09-24
-=======
-98,12345678,, ,\,
-1234567,1234567,abarthdgh, ,\,
-993344,1696624484,xcercise daily, ,need to maintain blood pressure,2025-05-11
-78, 65, asdfgh, , fhgvhsdfhsdhjvsgdfh, 2025-12-09
->>>>>>> 3ef564977586fba2985090286554e2199a58fcd3
-1324, 123, 1324, , 424, 252
-1231, 123, 213124, , 12431214, 1245325
-12, 23, aminurrashid, hjskf, gfhgfvb, hgdhhvgyfgt, yrfyfhfv, ghdfhdgftgfyr
-90, 9, hj, kl, lo, fh, 2025-01-23, dy
+pattientId                                    ,appointmentID                                ,patient Name                                  ,doctor's department                                     ,doctor's name                                         ,diagnosis                                               ,date                                                           ,prescription                                  
+, ,, ,,,,
+, ,,,,,,
+,,,,,,,
+,,,,,,,
+, ,,,,,,
+, ,,,,,,
+, ,,,,,,
+, ,,,,,,
+,,,,,,,
+, ,,,,,,
+, ,,,,,,
+34, 250327, asd, dfg, cvb, sdf, 2025-03-12, ddf

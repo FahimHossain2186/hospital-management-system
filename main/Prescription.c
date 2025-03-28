@@ -2,7 +2,7 @@
 #include <string.h>
 #include <time.h>
 
-typedef struct
+typedef struct  //declaring structure for patient informatin
 {
     int     patientID;
     char    patientName[50];
@@ -17,7 +17,7 @@ typedef struct
 
 } MedicalRecord;
 
-typedef struct{
+typedef struct{     //declaring structure for date
 
     int year;
     int month;
@@ -41,7 +41,7 @@ Time currentTime(){ // Reference --> GeeksforGeeks "How can I return multiple va
     return time;
 }
 
-int generateappointmentID(){
+int generateappointmentID(){    //function for auto generating appointment id
 
     Time time = currentTime();
 
@@ -49,75 +49,77 @@ int generateappointmentID(){
 
     id = (time.year - 2000) * 10000 + time.month * 100 + time.day;
 
-    FILE *file = fopen("record.csv", "a");
-
-    return;
+    return id;
 }
 
-void addRecord(){
+void addRecord(){ //function to take information of patient
 
-    MedicalRecord record;
+    MedicalRecord record;     //setting variable for MedicalRecord function
 
-    FILE *file = fopen("record.csv", "a");
+    FILE *file = fopen("record.csv", "a");    //file opening
 
     if(!file){
-        printf("Error opening file!\n");
+        printf("Error opening file!\n");    //if searching for file fails
         return;
     }
 
-    printf("Enter     patientID: \t");                          scanf("%d",&record.patientID);
-    printf("Enter     appointmentID: \t");                      scanf("%d",&record.appointmentID);
+    printf("Enter     patientID: \t");                          scanf("%d",&record.patientID);   //prompts for input
 
-    printf("Enter   patient    name: \t\t");                    scanf(" %[^\n]",record.patientName);
-    printf("Enter   doctor's   department: \t");                scanf(" %[^\n]",record.doctorDept);
-    printf("Enter   doctor     name:\t");                       scanf(" %[^\n]",record.doctorName);
+    record.appointmentID = generateappointmentID();    //setting auto generated appointmentID in record.appointmentID
+    printf("Generated appointment ID: %d\n", record.appointmentID);   //printing the auto generated appointmentID
+
+    printf("Enter patient name:\t");                            scanf(" %[^\n]",record.patientName);   //prompts for more inputs
+    printf("Enter doctor's department:");                       scanf(" %[^\n]",record.doctorDept);
+    printf("Enter doctor name:\t");                             scanf(" %[^\n]",record.doctorName);
     printf("Enter   diagnosis: \t");                            scanf(" %[^\n]",record.diagnosis);
-    printf("Enter   date: \t");                                 scanf(" %[^\n]",record.date);
+    printf("Enter   date: \t\t");                               scanf(" %[^\n]",record.date);
     printf("Enter   prescription: \t");                         scanf(" %[^\n]",record.prescription);
 
     fprintf(file, "%d, %d, %s, %s, %s, %s, %s, %s\n", record.patientID, record.appointmentID, record.patientName, record.doctorDept, record.doctorName
-            , record.diagnosis ,record.date ,record.prescription);
+            , record.diagnosis ,record.date ,record.prescription);   //writing inputs in file
 
-    fclose(file);
+    fclose(file);     //closing the file
 
     printf("\nRecord added successfully\n\n");
 }
 
-void viewMedicalRecord(){
+void viewMedicalRecord(){     //function to view saved information
 
-MedicalRecord record;
+ MedicalRecord record;       //setting variable for MedicalRecord function
 
-FILE *file = fopen("record.csv", "r");
+
+FILE *file = fopen("record.csv", "r");  //file opening in read mood
 
     if(!file){
-        printf("Error opening file!\n");
+        printf("Error opening file!\n");        //if searching for file fails
         return;
     }
 
-    int searchingpatientID;
+    int searchingpatientID;          //variable to take input
     int searchingappointID;
     int found = 0;
 
-    printf("Enter patientID :\t");                          scanf("%d",&searchingpatientID);
+    printf("Enter patientID :\t");                          scanf("%d",&searchingpatientID);      //taking patientId and appointment id to search for information
     printf("Enter appointmentID :\t");                      scanf("%d",&searchingappointID);
 
-    char line[200];
+    char line[2000];
 
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file)) {         //searching for given information in lines
 
-        fscanf(file, "%d, %d, %s, %s, %s, %s ,%s ,%s\n", &record.patientID, &record.appointmentID, record.doctorDept,record.doctorName
+        fscanf(file, "%d, %d, %49[^,], %24[^,], %49[^,], %499[^,] ,%14[^,] ,%499[^\n]\n", &record.patientID, &record.appointmentID, record.patientName ,record.doctorDept, record.doctorName
                , record.diagnosis, record.date ,record.prescription);
 
-        if (record.patientID == searchingpatientID && record.appointmentID == searchingappointID) {
+        if (record.patientID == searchingpatientID && record.appointmentID == searchingappointID)  {      //checking if given and saved information matchs
 
-            printf("\nMedical Record Found\n");
+            printf("\nMedical Record Found\n");          //printing informations after getting them
             printf("Patient ID:                 %d\n", record.patientID);
-            printf("Appoinment ID:              %d\n", record.appointmentID);
+            printf("Appointment ID:             %d\n", record.appointmentID);
+            printf("Patient Name:               %s\n", record.patientName);
             printf("Doctor's Department:        %s\n", record.doctorDept);
             printf("Doctor's Name:              %s\n", record.doctorName);
             printf("Diagnosis:                  %s\n", record.diagnosis);
-            printf("Date(yyyy-mm-dd):           %s\n", record.date);
-            printf("Prescription:               %s\n", record.prescription);
+            printf("Date(yyyy-mm-dd):          %s\n", record.date);
+            printf("Prescription:              %s\n", record.prescription);
 
 
             found = 1;
@@ -125,11 +127,11 @@ FILE *file = fopen("record.csv", "r");
         }
     }
 
-    if (!found) {
+    if (!found) {          //showing that there is no saved information
         printf("\nNo record found for Patient ID %d and Appointment ID %d\n", searchingpatientID, searchingappointID);
     }
 
-    fclose(file);
+    fclose(file);            //closing file
 }
 
 
