@@ -1,0 +1,11 @@
+ID,Name,Role,Department,City,Area,PostalCode,ContactNo,Email,Password
+3001,John Smith,Receptionist,Front Desk,Dhaka,Gulshan,1212,01711000000,john.smith@hospital.com,1111
+3002,Sarah Ahmed,Nurse,Emergency,Chattogram,Agrabad,4000,01822000000,sarah.ahmed@hospital.com,2222
+3003,Michael Rahman,Pharmacist,Pharmacy,Khulna,Sonadanga,9100,01933000000,michael.rahman@hospital.com,3333
+3004,Emma Akter,Lab Technician,Pathology,Rajshahi,Upashahar,6000,01544000000,emma.akter@hospital.com,4444
+3005,Liam Chowdhury,Accountant,Finance,Sylhet,Zindabazar,3100,01655000000,liam.chowdhury@hospital.com,5555
+3006,Noah Hossain,Security Guard,Security,Dhaka,Banani,1213,01766000000,noah.hossain@hospital.com,6666
+3007,Olivia Begum,Janitor,Maintenance,Chattogram,Panchlaish,4212,01877000000,olivia.begum@hospital.com,7777
+3008,William Islam,IT Specialist,IT Support,Rangpur,Medical Road,5400,01988000000,william.islam@hospital.com,8888
+3009,Ava Karim,Canteen Manager,Catering,Barishal,Kawnia,8200,01799000000,ava.karim@hospital.com,9999
+3010,James Rahman,HR Officer,Human Resources,Mymensingh,Town Hall,2200,01555000000,james.rahman@hospital.com,1010

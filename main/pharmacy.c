@@ -18,20 +18,20 @@ typedef struct
 } Medicine;
 
 void addNewMedicine();
+void main();
 
-void generateMedicineID(){
+int generateMedicineID(char medicineName[30]){
 
-    char    medicineName[30];
     char    medicineDept[40];
     char    medicineSubDept[40];
+    int     generatedID = 0;
+    char    line[200];
+    char    department[30];
+    int     departmentCode;
+    char    subDivisions[40];
+    int     subDivisionsCode;
 
-    printf("Enter the medicine name:\t");
-    scanf(" %[^\n]", medicineName);
-    printf("Enter the medicine department:\t");
-    scanf(" %[^\n]", medicineDept);
-
-    FILE *dispensaryFile = fopen("dispensary.csv", "r");
-    char line[200];
+    FILE *dispensaryFile = fopen(FILE_NAME, "r");
 
     if(dispensaryFile){
 
@@ -46,36 +46,83 @@ void generateMedicineID(){
                 printf("Medicine already exists in the database.\n");
                 printf("Do you want to update the quantity of that medicine?\n");
                 
+                getchar();              // Consume leftover newline
                 choice = getchar();
 
                 if(choice == 'y' || choice == 'Y'){
-                    addNewMedicine();
+
+                    fclose(dispensaryFile);
+                    updateDispensary();
                     return;
-                }
-                else{
+                }else{
                     return;
                 }
             }    
         }
+        fclose(dispensaryFile);
     }
             
-    fclose(dispensaryFile);
+    
 
     printf("Enter Department name:   \t");
     scanf(" [^\n]", medicineDept);
     printf("Enter Sub-Divisions name:\t");
     scanf(" [^\n]", medicineSubDept);
 
-    
+    FILE *deptCode = fopen("medicine-characteristics.csv", "r");
+
+    if(deptCode){
+
+        int found = 0;
+        while(fgets(line, sizeof(line), deptCode)){
+
+            sscanf(line, " %29[^,], %d, %39[^,], %d", department, &departmentCode, subDivisions, &subDivisionsCode);
+
+            if(strcmp(department, medicineDept) == 0 && strcmp(subDivisions, medicineSubDept) == 0){
+                generatedID = departmentCode * 10 + subDivisionsCode;
+                found = 1;
+                break;
+            }
+        }
+        fclose(deptCode);
+
+        if(!found){
+            printf("No matching department and sub-division found!\n");
+            return;
+        }
+    }
+
+    generatedID *= 1000;
+    int highestSuffix = -1;
+
+    dispensaryFile = fopen(FILE_NAME, "r");
+
+    if(dispensaryFile){
+        while(fgets(line, sizeof(line), dispensaryFile)){
+            Medicine med;
+            sscanf(line, "%d , %49[^,]", &med.medicineID, med.name);
+
+            if(med.medicineID / 1000 == generatedID / 1000){
+                int suffix = med.medicineID % 1000;
+                if(suffix > highestSuffix)
+                    highestSuffix = suffix;
+            }
+        }
+        fclose(dispensaryFile);
+    }
+
+    generatedID += highestSuffix + 1;
+
+    return generatedID;
 
 }
 
 void medicineCodes(){
 
     char department[30];
-    char departmentCode;
+    int departmentCode;
     char subDivisions[40];
-    char subDivisionsCode;
+    int subDivisionsCode;
 
     FILE *file = fopen("medicine-characteristics.csv", "r");
 
@@ -94,8 +141,9 @@ void medicineCodes(){
             continue;
         }
 
-        sscanf(line, "%29[^,], %c, %39[^,], %c", department, &departmentCode, subDivisions, &subDivisionsCode);
-        printf("%s | %c | %s | %c \n", department, departmentCode, subDivisions, subDivisionsCode);
+        sscanf(line, "%29[^,], %d, %39[^,], %d", department, &departmentCode, subDivisions, &subDivisionsCode);
+        printf("%s | %-9d | %s | %d \n", department, departmentCode, subDivisions, subDivisionsCode);
+
         
     }
 
@@ -107,6 +155,13 @@ void medicineCodes(){
 }
 
 void addNewMedicine(){
+
+    Medicine med;
+
+    printf("Enter the medicine name:\t");
+    scanf(" %[^\n]", med.name);
+
+    med.medicineID = generateMedicineID(med.name);
     
     FILE *file = fopen(FILE_NAME, "r+");
 
@@ -115,9 +170,9 @@ void addNewMedicine(){
         return;
     }
 
-}
+    
 
-void main();
+}
 
 void updateDispensary(){
     //aa
@@ -167,6 +222,7 @@ void dispensary(){
         printf("4. Update Dispensary\n");
         printf("5. Exit\n");
 
+        printf("\nYour choice:\t");
         scanf("%d", &choice);
 
         switch (choice){
