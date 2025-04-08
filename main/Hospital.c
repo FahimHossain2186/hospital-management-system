@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ===== STRUCT DEFINITIONS =====
-
 typedef struct {
     char city[30];
     char area[30];
@@ -43,15 +41,11 @@ typedef struct {
     int password;
 } Staff;
 
-// ===== FUNCTION DECLARATIONS =====
-
 int login(int userType);
 void logout();
 void addPatient();
 void viewPatient();
 void viewDoctor();
-
-// ===== LOGIN FUNCTION =====
 
 int login(int userType) {
     int id, password;
@@ -91,13 +85,9 @@ int login(int userType) {
     return 0;
 }
 
-// ===== LOGOUT FUNCTION =====
-
 void logout() {
     printf("\nLogged Out Successfully!\n");
 }
-
-// ===== ADD PATIENT FUNCTION =====
 
 void addPatient() {
     Patient patient;
@@ -138,8 +128,6 @@ void addPatient() {
     printf("\nPatient Added Successfully!\n");
 }
 
-// ===== VIEW PATIENT FUNCTION =====
-
 void viewPatient() {
     FILE *file = fopen("patients.csv", "r");
     if (!file) {
@@ -147,8 +135,6 @@ void viewPatient() {
         return;
     }
 
-    printf("\nID | Name | Age | Gender | City | Area | PostalCode | Disease | Contact\n");
-    printf("------------------------------------------------------------------------\n");
 
     char line[200];
     while (fgets(line, sizeof(line), file)) {
@@ -157,8 +143,6 @@ void viewPatient() {
 
     fclose(file);
 }
-
-// ===== VIEW DOCTOR FUNCTION =====
 
 void viewDoctor() {
     FILE *file = fopen("doctors.csv", "r");
@@ -167,8 +151,6 @@ void viewDoctor() {
         return;
     }
 
-    printf("\nID | Name | Department | Title | City | Area | PostalCode | Contact | Email\n");
-    printf("--------------------------------------------------------------------------\n");
 
     char line[200];
     while (fgets(line, sizeof(line), file)) {
@@ -177,8 +159,6 @@ void viewDoctor() {
 
     fclose(file);
 }
-
-// ===== MAIN FUNCTION =====
 
 int main() {
     int userType;
@@ -207,7 +187,7 @@ int main() {
         loggedIn = login(userType);
 
         while (loggedIn) {
-            if (userType == 1) { // Patient
+            if (userType == 1) { 
                 printf("\n--- Patient Menu ---\n");
                 printf("1. View Patients \n");
                 printf("2. View Doctors\n");
@@ -229,7 +209,7 @@ int main() {
                     default:
                         printf("Invalid choice! Try again.\n");
                 }
-            } else if (userType == 2) { // Doctor
+            } else if (userType == 2) { 
                 printf("\n--- Doctor Menu ---\n");
                 printf("1. View Patients\n");
                 printf("2. View Doctors\n");
@@ -251,7 +231,7 @@ int main() {
                     default:
                         printf("Invalid choice! Try again.\n");
                 }
-            } else if (userType == 3) { // Staff
+            } else if (userType == 3) { 
                 printf("\n--- Staff Menu ---\n");
                 printf("1. Add New Patient\n");
                 printf("2. View All Patients\n");
