@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ===== STRUCT DEFINITIONS =====
-
 typedef struct {
     char city[30];
     char area[30];
@@ -43,15 +41,17 @@ typedef struct {
     int password;
 } Staff;
 
-// ===== FUNCTION DECLARATIONS =====
-
 int login(int userType);
 void logout();
 void addPatient();
 void viewPatient();
 void viewDoctor();
-
-// ===== LOGIN FUNCTION =====
+//void viewMedicalRecord();
+//void viewDispensary();
+//void bookAppointment();
+//void viewAppointment();
+//void addRecord();
+//void updateDispensary();
 
 int login(int userType) {
     int id, password;
@@ -91,13 +91,9 @@ int login(int userType) {
     return 0;
 }
 
-// ===== LOGOUT FUNCTION =====
-
 void logout() {
     printf("\nLogged Out Successfully!\n");
 }
-
-// ===== ADD PATIENT FUNCTION =====
 
 void addPatient() {
     Patient patient;
@@ -138,17 +134,12 @@ void addPatient() {
     printf("\nPatient Added Successfully!\n");
 }
 
-// ===== VIEW PATIENT FUNCTION =====
-
 void viewPatient() {
     FILE *file = fopen("patients.csv", "r");
     if (!file) {
         printf("Error opening file!\n");
         return;
     }
-
-    printf("\nID | Name | Age | Gender | City | Area | PostalCode | Disease | Contact\n");
-    printf("------------------------------------------------------------------------\n");
 
     char line[200];
     while (fgets(line, sizeof(line), file)) {
@@ -157,8 +148,6 @@ void viewPatient() {
 
     fclose(file);
 }
-
-// ===== VIEW DOCTOR FUNCTION =====
 
 void viewDoctor() {
     FILE *file = fopen("doctors.csv", "r");
@@ -167,9 +156,6 @@ void viewDoctor() {
         return;
     }
 
-    printf("\nID | Name | Department | Title | City | Area | PostalCode | Contact | Email\n");
-    printf("--------------------------------------------------------------------------\n");
-
     char line[200];
     while (fgets(line, sizeof(line), file)) {
         printf("%s", line);
@@ -178,40 +164,39 @@ void viewDoctor() {
     fclose(file);
 }
 
-// ===== MAIN FUNCTION =====
-
 int main() {
     int userType;
     int loggedIn = 0;
     int choice;
 
     while (1) {
-        printf("\n--- Welcome to Hospital Management System ---\n");
+        printf("\n--- Hospital Management System ---\n");
         printf("1. Patient Login\n");
         printf("2. Doctor Login\n");
         printf("3. Staff Login\n");
-        printf("4. Exit\n");
+        printf("4. Hospital Admin Login\n");
+        printf("5. Hospital Management\n");
+        printf("6. Pharmacy\n");
+
         printf("Enter your choice: ");
         scanf("%d", &userType);
 
-        if (userType == 4) {
-            printf("Exiting system...\n");
-            break;
-        }
-
-        if (userType < 1 || userType > 3) {
-            printf("Invalid user type! Please try again.\n");
+        if (userType < 1 || userType > 6) {
+            printf("Invalid Input.\n");
             continue;
         }
 
         loggedIn = login(userType);
 
         while (loggedIn) {
-            if (userType == 1) { // Patient
-                printf("\n--- Patient Menu ---\n");
+            if (userType == 1) {
                 printf("1. View Patients \n");
                 printf("2. View Doctors\n");
-                printf("3. Logout\n");
+                printf("3. viewMedicalRecord\n");
+                printf("4. viewDispensary\n");
+                printf("5. bookAppointment\n");
+                printf("6. viewAppointment\n");
+                printf("7. Logout\n");
                 printf("Enter your choice: ");
                 scanf("%d", &choice);
 
@@ -223,17 +208,32 @@ int main() {
                         viewDoctor();
                         break;
                     case 3:
+                        //viewMedicalRecord();
+                        break;
+                    case 4:
+                        //viewDispensary();
+                        break;
+                    case 5:
+                        //bookAppointment();
+                        break;
+                    case 6:
+                        //viewAppointment();
+                        break;
+                    case 7:
                         logout();
                         loggedIn = 0;
                         break;
                     default:
-                        printf("Invalid choice! Try again.\n");
+                        printf("Invalid Input.\n");
                 }
-            } else if (userType == 2) { // Doctor
-                printf("\n--- Doctor Menu ---\n");
+            } else if (userType == 2) {
                 printf("1. View Patients\n");
                 printf("2. View Doctors\n");
-                printf("3. Logout\n");
+                printf("3. viewMedicalRecord\n");
+                printf("4. viewDispensary\n");
+                printf("5. bookAppointment\n");
+                printf("6. viewAppointment\n");
+                printf("7. Logout\n");
                 printf("Enter your choice: ");
                 scanf("%d", &choice);
 
@@ -245,14 +245,25 @@ int main() {
                         viewDoctor();
                         break;
                     case 3:
+                        //viewMedicalRecord();
+                        break;
+                    case 4:
+                        //viewDispensary();
+                        break;
+                    case 5:
+                        //bookAppointment();
+                        break;
+                    case 6:
+                        //viewAppointment();
+                        break;
+                    case 7:
                         logout();
                         loggedIn = 0;
                         break;
                     default:
-                        printf("Invalid choice! Try again.\n");
+                        printf("Invalid Input.\n");
                 }
-            } else if (userType == 3) { // Staff
-                printf("\n--- Staff Menu ---\n");
+            } else if (userType == 3) {
                 printf("1. Add New Patient\n");
                 printf("2. View All Patients\n");
                 printf("3. View All Doctors\n");
@@ -275,7 +286,105 @@ int main() {
                         loggedIn = 0;
                         break;
                     default:
-                        printf("Invalid choice! Try again.\n");
+                        printf("Invalid Input.\n");
+                }
+            } else if (userType == 4) {
+                printf("1. View Patients\n");
+                printf("2. View Doctors\n");
+                printf("3. viewMedicalRecord\n");
+                printf("4. viewDispensary\n");
+                printf("5. viewAppointment\n");
+                printf("6. addRecord\n");
+                printf("7. Logout\n");
+                printf("Enter your choice: ");
+                scanf("%d", &choice);
+
+                switch (choice) {
+                    case 1:
+                        viewPatient();
+                        break;
+                    case 2:
+                        viewDoctor();
+                        break;
+                    case 3:
+                        //viewMedicalRecord();
+                        break;
+                    case 4:
+                        //viewDispensary();
+                        break;
+                    case 5:
+                        //viewAppointment();
+                        break;
+                    case 6:
+                        //addRecord();
+                        break;
+                    case 7:
+                        logout();
+                        loggedIn = 0;
+                        break;
+                    default:
+                        printf("Invalid Input.\n");
+                }
+            }else if (userType == 5) {
+                printf("1. View Patients\n");
+                printf("2. View Doctors\n");
+                printf("3. viewMedicalRecord\n");
+                printf("4. viewDispensary\n");
+                printf("5. viewAppointment\n");
+                printf("6. addPatient\n");
+                printf("7. addRecord\n");
+                printf("8. Logout\n");
+                printf("Enter your choice: ");
+                scanf("%d", &choice);
+
+                switch (choice) {
+                    case 1:
+                        viewPatient();
+                        break;
+                    case 2:
+                        viewDoctor();
+                        break;
+                    case 3:
+                        //viewMedicalRecord();
+                        break;
+                    case 4:
+                        //viewDispensary();
+                        break;
+                    case 5:
+                        //viewAppointment();
+                        break;
+                    case 6:
+                        //addPatient();
+                        break;
+                    case 7:
+                        //addRecord();
+                    case 8:
+                        logout();
+                        loggedIn = 0;
+                        break;
+                    default:
+                        printf("Invalid Input.\n");
+                }
+            }else if (userType == 6) {
+                printf("1. viewDispensary\n");
+                printf("2. updateDispensary\n");
+                printf("3. Logout\n");
+                printf("Enter your choice: ");
+                scanf("%d", &choice);
+
+                switch (choice) {
+                    case 1:
+                        //viewDispensary();
+                        break;
+                    case 2:
+                        //updateDispensary();
+                        break;
+                    case 3:
+                        logout();
+                        loggedIn = 0;
+                        break;
+                    default:
+                        printf("Invalid Input.\n");
                 }
             }
         }
