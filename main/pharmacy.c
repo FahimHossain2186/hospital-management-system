@@ -19,17 +19,15 @@ typedef struct
 
 void addNewMedicine();
 void main();
+void updateDispensary();
+void medicineCodes();
 
 int generateMedicineID(char medicineName[30]){
 
-    char    medicineDept[40];
-    char    medicineSubDept[40];
+    int     medicineDept;
+    int     medicineSubDept;
     int     generatedID = 0;
     char    line[200];
-    char    department[30];
-    int     departmentCode;
-    char    subDivisions[40];
-    int     subDivisionsCode;
 
     FILE *dispensaryFile = fopen(FILE_NAME, "r");
 
@@ -38,60 +36,40 @@ int generateMedicineID(char medicineName[30]){
         while (fgets(line, sizeof(line), dispensaryFile))
         {
             Medicine med;
-            sscanf(line, "%d , %49[^,]", &med.medicineID, &med.name);
+            sscanf(line, "%d , %49[^,]", &med.medicineID, med.name);
 
             if(strcmp(med.name, medicineName) == 0){
 
                 char choice;
                 printf("Medicine already exists in the database.\n");
-                printf("Do you want to update the quantity of that medicine?\n");
-                
-                getchar();              // Consume leftover newline
+                printf("Do you want to update the quantity of that medicine? (y/n): ");
+                getchar(); // to consume newline
                 choice = getchar();
-
+            
                 if(choice == 'y' || choice == 'Y'){
-
                     fclose(dispensaryFile);
                     updateDispensary();
-                    return;
-                }else{
-                    return;
+                    return -1; // Fix: return a valid int
                 }
             }    
         }
         fclose(dispensaryFile);
     }
-            
+
+    char choice;
+    printf("Do you want to review the medicine codes?(y/n)\n");
+    scanf(" %c", &choice);
     
 
-    printf("Enter Department name:   \t");
-    scanf(" [^\n]", medicineDept);
-    printf("Enter Sub-Divisions name:\t");
-    scanf(" [^\n]", medicineSubDept);
+    if(choice == 'y' || choice == 'Y')                          medicineCodes();       
+        
+            
+    printf("\n\nEnter Department code:   \t");
+    scanf("%d", &medicineDept);
+    printf("Enter Sub-Divisions code:\t");
+    scanf("%d", &medicineSubDept);
 
-    FILE *deptCode = fopen("medicine-characteristics.csv", "r");
-
-    if(deptCode){
-
-        int found = 0;
-        while(fgets(line, sizeof(line), deptCode)){
-
-            sscanf(line, " %29[^,], %d, %39[^,], %d", department, &departmentCode, subDivisions, &subDivisionsCode);
-
-            if(strcmp(department, medicineDept) == 0 && strcmp(subDivisions, medicineSubDept) == 0){
-                generatedID = departmentCode * 10 + subDivisionsCode;
-                found = 1;
-                break;
-            }
-        }
-        fclose(deptCode);
-
-        if(!found){
-            printf("No matching department and sub-division found!\n");
-            return;
-        }
-    }
-
+    generatedID = medicineDept * 10 + medicineSubDept;
     generatedID *= 1000;
     int highestSuffix = -1;
 
@@ -131,7 +109,7 @@ void medicineCodes(){
         return;
     } 
 
-    printf("Department                | Dept-Code | Sub-Divisions                           | Sub-Div-Code\n");
+    printf("\nDepartment                | Dept-Code | Sub-Divisions                           | Sub-Div-Code\n");
     printf("----------------------------------------------------------------------------------------------\n");
 
     char line[200];
@@ -158,24 +136,101 @@ void addNewMedicine(){
 
     Medicine med;
 
-    printf("Enter the medicine name:\t");
+    printf("Enter the Medicine name:                                   \t");
     scanf(" %[^\n]", med.name);
 
     med.medicineID = generateMedicineID(med.name);
+
+    printf("Dosage Form (Tablet/Injection/Capsule/Oral Powder/Inhaler):\t");
+    scanf(" %[^\n]", med.dosageForm);
+    printf("Enter the Generic name:                                    \t");
+    scanf(" %[^\n]", med.genericName); 
+    printf("Enter the Group name:                                      \t");
+    scanf(" %[^\n]", med.group); 
+    printf("Enter the Company provider name:                           \t");
+    scanf(" %[^\n]", med.genericName); 
+    printf("Enter the Amount:                                          \t");
+    scanf(" %d", &med.quantity); 
     
-    FILE *file = fopen(FILE_NAME, "r+");
+    FILE *file = fopen(FILE_NAME, "a");
 
     if(!file){
         printf("No records found\n");
         return;
     }
 
-    
+    fprintf(file, "%d , %s , %s , %s , %s , %s , %d\n", med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, med.quantity);
 
+    fclose(file);
+
+    printf("✅ Medicine added successfully with ID: %d\n", med.medicineID);
+    
 }
 
-void updateDispensary(){
-    //aa
+void updateDispensary() {
+
+    Medicine medTemp;
+    char line[200];
+    int found = 0;
+
+    printf("Enter Medicine ID: ");
+    scanf("%d", &medTemp.medicineID);
+
+    FILE *dispensaryFile = fopen(FILE_NAME, "r");
+    FILE *tempFile = fopen("temp.csv", "w");
+
+    if (!dispensaryFile || !tempFile) {
+        printf("Error opening file.\n");
+        return;
+    }
+
+    while (fgets(line, sizeof(line), dispensaryFile)) {
+        Medicine med;
+        sscanf(line, "%d, %49[^,], %19[^,], %49[^,], %99[^,], %39[^,], %d",
+               &med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, &med.quantity);
+
+        if (medTemp.medicineID == med.medicineID) {
+            found = 1;
+
+            char operation;
+            int amount;
+
+            printf("Current Quantity of %s (ID: %d): %d\n", med.name, med.medicineID, med.quantity);
+            printf("Do you want to add (a) or subtract (s) quantity? \t");
+            scanf(" %c", &operation);
+            printf("Enter amount:                                    \t");
+            scanf("%d", &amount);
+
+            if (operation == 'a' || operation == 'A') {
+                med.quantity += amount;
+            } else if (operation == 's' || operation == 'S') {
+                if (amount > med.quantity) {
+                    printf("Cannot subtract more than existing quantity. Setting to 0.\n");
+                    med.quantity = 0;
+                } else {
+                    med.quantity -= amount;
+                }
+            } else {
+                printf("Invalid operation. No change made.\n");
+            }
+        }
+
+        // Write to temp file (updated or unchanged)
+        fprintf(tempFile, "%d,%s,%s,%s,%s,%s,%d\n",
+                med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, med.quantity);
+    }
+
+    fclose(dispensaryFile);
+    fclose(tempFile);
+
+    remove(FILE_NAME);
+    rename("temp.csv", FILE_NAME);
+
+    if (found)
+        printf("Medicine quantity updated successfully.\n");
+    else
+        printf("Medicine not found.\n");
+
 }
 
 void viewDispensary(){
