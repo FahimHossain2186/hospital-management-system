@@ -21,6 +21,7 @@ void addNewMedicine();
 void main();
 void updateDispensary();
 void medicineCodes();
+void dispensary();
 
 int generateMedicineID(char medicineName[30]){
 
@@ -42,13 +43,13 @@ int generateMedicineID(char medicineName[30]){
 
                 char choice;
                 printf("Medicine already exists in the database.\n");
-                printf("Do you want to update the quantity of that medicine? (y/n): ");
+                printf("Do you want to update the quantity of that medicine? (y/n): \t");
                 getchar(); // to consume newline
                 choice = getchar();
             
                 if(choice == 'y' || choice == 'Y'){
                     fclose(dispensaryFile);
-                    updateDispensary();
+                    updateDispensary(med.medicineID);
                     return -1; // Fix: return a valid int
                 }
             }    
@@ -57,7 +58,7 @@ int generateMedicineID(char medicineName[30]){
     }
 
     char choice;
-    printf("Do you want to review the medicine codes?(y/n)\n");
+    printf("Do you want to review the medicine codes?(y/n):\t\t\t");
     scanf(" %c", &choice);
     
 
@@ -109,6 +110,7 @@ void medicineCodes(){
         return;
     } 
 
+    printf("\n----------------------------------------------------------------------------------------------");
     printf("\nDepartment                | Dept-Code | Sub-Divisions                           | Sub-Div-Code\n");
     printf("----------------------------------------------------------------------------------------------\n");
 
@@ -124,6 +126,8 @@ void medicineCodes(){
 
         
     }
+
+    printf("----------------------------------------------------------------------------------------------\n");
 
     fclose(file);
 
@@ -148,7 +152,7 @@ void addNewMedicine(){
     printf("Enter the Group name:                                      \t");
     scanf(" %[^\n]", med.group); 
     printf("Enter the Company provider name:                           \t");
-    scanf(" %[^\n]", med.genericName); 
+    scanf(" %[^\n]", med.company); 
     printf("Enter the Amount:                                          \t");
     scanf(" %d", &med.quantity); 
     
@@ -167,14 +171,13 @@ void addNewMedicine(){
     
 }
 
-void updateDispensary() {
+void updateDispensary(int x) {
 
     Medicine medTemp;
     char line[200];
     int found = 0;
 
-    printf("Enter Medicine ID: ");
-    scanf("%d", &medTemp.medicineID);
+    medTemp.medicineID = x;
 
     FILE *dispensaryFile = fopen(FILE_NAME, "r");
     FILE *tempFile = fopen("temp.csv", "w");
@@ -195,7 +198,7 @@ void updateDispensary() {
             char operation;
             int amount;
 
-            printf("Current Quantity of %s (ID: %d): %d\n", med.name, med.medicineID, med.quantity);
+            printf("Current Quantity of %s (ID: %d):           \t%d\n", med.name, med.medicineID, med.quantity);
             printf("Do you want to add (a) or subtract (s) quantity? \t");
             scanf(" %c", &operation);
             printf("Enter amount:                                    \t");
@@ -205,7 +208,7 @@ void updateDispensary() {
                 med.quantity += amount;
             } else if (operation == 's' || operation == 'S') {
                 if (amount > med.quantity) {
-                    printf("Cannot subtract more than existing quantity. Setting to 0.\n");
+                    printf("\nCannot subtract more than existing quantity. Setting to 0.\n");
                     med.quantity = 0;
                 } else {
                     med.quantity -= amount;
@@ -227,9 +230,31 @@ void updateDispensary() {
     rename("temp.csv", FILE_NAME);
 
     if (found)
-        printf("Medicine quantity updated successfully.\n");
+        printf("\nMedicine quantity updated successfully.\n");
     else
-        printf("Medicine not found.\n");
+        printf("\nMedicine not found.\n");
+
+    char choice;
+
+    while(choice != 'Y' || choice != 'y' ||choice != 'N' ||choice != 'n')
+    {
+        printf("\nDo you want to update the quantity of that medicine? (y/n): ");
+    
+        getchar(); // to consume newline
+        choice = getchar();
+    
+        if(choice == 'y' || choice == 'Y')
+        {
+            int medicineID;
+
+            printf("\n\nEnter Medicine ID:                                     \t");
+            scanf("%d", &medicineID);
+            updateDispensary(medicineID);
+        }                          
+        
+        else if(choice == 'n' || choice == 'N')                     dispensary();
+        else                                                        printf("Wrong Input.\nPlease try again\n");
+    }  
 
 }
 
@@ -242,6 +267,7 @@ void viewDispensary(){
         return;
     }    
 
+    printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     printf("\nID    | Name       | Dosage Form | Generic Name                                | Group                                      | Company                     | Quantity\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
     
@@ -259,6 +285,8 @@ void viewDispensary(){
         
     }
 
+    printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
     fclose(file);
 
     printf("\n\n");
@@ -266,10 +294,10 @@ void viewDispensary(){
 
 void dispensary(){
 
-    int choice;
+    int choice, medicineID;
 
     do{
-        printf("Hospital Dispensary System\n");
+        printf("\n\nHospital Dispensary System\n");
 
         printf("1. Medicine Codes\n");
         printf("2. View Dispensary\n");
@@ -285,8 +313,14 @@ void dispensary(){
             case 1:         medicineCodes();                break;
             case 2:         viewDispensary();               break;
             case 3:         addNewMedicine();               break;
-            case 4:         updateDispensary();             break;
+            
             case 5:         main();                         break;
+            case 4:         
+
+                printf("\n\nEnter Medicine ID:                                     \t");
+                scanf("%d", &medicineID);
+                updateDispensary(medicineID);             
+                break;
             default:        printf("Invalid Choice.\n");    break;
         
         }
