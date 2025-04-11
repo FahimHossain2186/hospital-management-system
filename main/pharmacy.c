@@ -52,6 +52,10 @@ int generateMedicineID(char medicineName[30]){
                     updateDispensary(med.medicineID);
                     return -1; // Fix: return a valid int
                 }
+                else if(choice == 'n' || choice == 'N'){
+                    fclose(dispensaryFile);
+                    dispensary();
+                }
             }    
         }
         fclose(dispensaryFile);
@@ -65,9 +69,9 @@ int generateMedicineID(char medicineName[30]){
     if(choice == 'y' || choice == 'Y')                          medicineCodes();       
         
             
-    printf("\n\nEnter Department code:   \t");
+    printf("Enter Department code:                                   \t");
     scanf("%d", &medicineDept);
-    printf("Enter Sub-Divisions code:\t");
+    printf("Enter Sub-Divisions code:                                \t");
     scanf("%d", &medicineSubDept);
 
     generatedID = medicineDept * 10 + medicineSubDept;
@@ -313,18 +317,18 @@ void dispensary(){
             case 1:         medicineCodes();                break;
             case 2:         viewDispensary();               break;
             case 3:         addNewMedicine();               break;
-            
-            case 5:         main();                         break;
+            case 5:         return 0;                       break;
             case 4:         
 
                 printf("\n\nEnter Medicine ID:                                     \t");
                 scanf("%d", &medicineID);
                 updateDispensary(medicineID);             
                 break;
+
             default:        printf("Invalid Choice.\n");    break;
         
         }
-    }while (choice != 4);
+    }while (choice != 5);
     
 }
 

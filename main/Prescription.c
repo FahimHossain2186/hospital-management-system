@@ -49,6 +49,8 @@ int generateappointmentID(){    //function for auto generating appointment id
 
     id = (time.year - 2000) * 10000 + time.month * 100 + time.day;
 
+    id *= 10000;
+
     return id;
 }
 

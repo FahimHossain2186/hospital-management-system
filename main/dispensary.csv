@@ -14,7 +14,7 @@
 32000,Folison,Tablet,Folic Acid,Vitamin,Jayson Pharmaceutical Ltd,0
 32001,Syntocin,Injection,Oxytocin,Uterotonic (For Labor & PPH Management),Techno Drugs Ltd,0
 32002,Ferol TR,Tablet,Ferrous Sulfate + Folic Acid + Zinc,Iron Supplement,Opsonin Pharma Ltd,0
-41000,Seclo,Capsule,Omeprazole,Proton Pump Inhibitor,Square Pharmaceuticals PLC,0
+41000,Seclo,Capsule,Omeprazole,Proton Pump Inhibitor,Square Pharmaceuticals PLC,460
 41001,Finix,Tablet,Rabeprazole​,Proton Pump Inhibitor,Opsonin Pharma Ltd,0
 42000,Motigut,Tablet,Domperidone​,Prokinetic,Square Pharmaceuticals PLC,100
 42001,Imotil,Capsule,Loperamide​,Antidiarrheal,Square Pharmaceuticals PLC,0
@@ -25,4 +25,5 @@
 52000,Bexitrol F,Inhaler,Salmeterol + Fluticasone,LABA + Corticosteroid,Beximco Pharmaceuticals Ltd,0
 52001,Budemet,Inhaler,Budesonide +  Formoterol Fumarate Dihydrate,Inhaled Corticosteroid,Incepta Pharmaceuticals Ltd,0
 52001,Budemet,Inhaler,Budesonide +  Formoterol Fumarate Dihydrate,Inhaled Corticosteroid,Incepta Pharmaceuticals Ltd,0
-
+52001,Budemet,Inhaler,Budesonide +  Formoterol Fumarate Dihydrate,Inhaled Corticosteroid,Incepta Pharmaceuticals Ltd,0
+41002 , Losectil , Capsule , Omeprazole , Proton Pump Inhibitor , Eskayef Pharmaceuticals Ltd , 50
