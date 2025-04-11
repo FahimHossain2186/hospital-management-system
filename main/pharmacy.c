@@ -308,8 +308,8 @@ void dispensary(){
         printf("3. Add new Medicine\n");
         printf("4. Update Dispensary\n");
         printf("5. Exit\n");
-
-        printf("\nYour choice:\t");
+        
+        printf("\nYour choice:                                             \t");
         scanf("%d", &choice);
 
         switch (choice){
@@ -317,7 +317,7 @@ void dispensary(){
             case 1:         medicineCodes();                break;
             case 2:         viewDispensary();               break;
             case 3:         addNewMedicine();               break;
-            case 5:         return 0;                       break;
+            case 5:         exit(0);                        break;
             case 4:         
 
                 printf("\n\nEnter Medicine ID:                                     \t");
