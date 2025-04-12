@@ -266,7 +266,7 @@ void bookAppointment() {
 }
 
 
-void viewAppointments(){     //function to view saved information
+void viewAppointment(){     //function to view saved information
 
  Appointment appoint;       //setting variable for MedicalRecord function
 
