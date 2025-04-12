@@ -40,18 +40,69 @@ Time currentTime(){ // Reference --> GeeksforGeeks "How can I return multiple va
     return time;
 }
 
+int generatepatientID(){    //function for auto generating patient id
+
+    Time time = currentTime();
+    int month = time.month;
+
+    FILE *file = fopen("appointments.csv", "r");
+    int count = 0;
+
+    Appointment appoint;
+
+
+    char line[2000];
+    if (file) {
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %14[^,^\n]",
+                   &appoint.patientID, &appoint.appointmentID, appoint.patientName,
+                   appoint.doctorDept, appoint.doctorName, appoint.date);
+
+            int mon = appoint.patientID / 10000; // Extract day from appointment ID
+            if (mon == month)
+                count++;
+        }
+        fclose(file);
+    }
+
+    int ID = month * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
+    return ID;
+}
+
+
+
+
+
 
 int generateappointmentID(){    //function for auto generating appointment id
 
-     Time time = currentTime();
+    Time time = currentTime();
+    int day = time.day;
 
-    int id;
+    FILE *file = fopen("appointments.csv", "r");
+    int count = 0;
 
-    id = (time.year - 2000) * 10000 + time.month * 100 + time.day;
+    Appointment appoint;
 
-    return id;
+
+    char line[2000];
+    if (file) {
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %14[^,^\n]",
+                   &appoint.patientID, &appoint.appointmentID, appoint.patientName,
+                   appoint.doctorDept, appoint.doctorName, appoint.date);
+
+
+            int dat = appoint.appointmentID / 10000; // Extract day from appointment ID
+            if (dat == day)
+                count++;
+        }
+        fclose(file);
+    }
+
+    int ID = day * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
+    return ID;
 }
-
 
 void bookAppointment() {
 
@@ -65,7 +116,8 @@ void bookAppointment() {
     }
 
 
-    printf("Enter     patientID: \t");                          scanf("%d",&appoint.patientID);
+    appoint.patientID = generatepatientID();
+    printf("Generated patient ID: %d\n", appoint.patientID);
 
     appoint.appointmentID = generateappointmentID();    //setting auto generated appointmentID in record.appointmentID
     printf("Generated appointment ID: %d\n", appoint.appointmentID);   //printing the auto generated appointmentID
@@ -73,7 +125,7 @@ void bookAppointment() {
     printf("Enter patient name:\t");                            scanf(" %[^\n]",appoint.patientName);
     printf("Enter doctor name:\t");                             scanf(" %[^\n]",appoint.doctorName);
     printf("Enter doctor's department:");                       scanf(" %[^\n]",appoint.doctorDept);
-    printf("Enter   date: \t\t");                               scanf(" %[^\n]",appoint.date);
+    printf("Enter date of appointment: \t\t");                  scanf(" %[^\n]",appoint.date);
 
 
     fprintf(file, "%d, %d, %s, %s, %s, %s\n", appoint.patientID, appoint.appointmentID, appoint.patientName,
@@ -110,7 +162,7 @@ FILE *file = fopen("appointments.csv", "r");  //file opening in read mood
 
     while (fgets(line, sizeof(line), file)) {         //searching for given information in lines
 
-        fscanf(file, "%d, %d, %49[^,], %49[^,], %24[^,],%14[^\n]\n", &appoint.patientID, &appoint.appointmentID
+        sscanf(line, "%d, %d, %49[^,], %49[^,], %24[^,],%14[^\n]\n", &appoint.patientID, &appoint.appointmentID
                ,appoint.patientName ,appoint.doctorName, appoint.doctorDept, appoint.date);
 
         if (appoint.patientID == searchingpatientID && appoint.appointmentID == searchingappointID)  {      //checking if given and saved information matchs

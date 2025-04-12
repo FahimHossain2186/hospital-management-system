@@ -41,18 +41,74 @@ Time currentTime(){ // Reference --> GeeksforGeeks "How can I return multiple va
     return time;
 }
 
+
+
+int generatepatientID(){    //function for auto generating patient id
+
+    Time time = currentTime();
+    int month = time.month;
+
+    FILE *file = fopen("record.csv", "r");
+    int count = 0;
+
+    MedicalRecord record;
+
+
+    char line[2000];
+    if (file) {
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %499[^,], %14[^,], %499[^\n]",
+                   &record.patientID, &record.appointmentID, record.patientName,
+                   record.doctorDept, record.doctorName, record.diagnosis,
+                   record.date, record.prescription);
+
+            int mon = record.patientID / 10000; // Extract day from appointment ID
+            if (mon == month)
+                count++;
+        }
+        fclose(file);
+    }
+
+    int ID = month * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
+    return ID;
+}
+
+
+
+
+
+
 int generateappointmentID(){    //function for auto generating appointment id
 
     Time time = currentTime();
+    int day = time.day;
 
-    int id;
+    FILE *file = fopen("record.csv", "r");
+    int count = 0;
 
-    id = (time.year - 2000) * 10000 + time.month * 100 + time.day;
+    MedicalRecord record;
 
-    id *= 10000;
 
-    return id;
+    char line[2000];
+    if (file) {
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %499[^,], %14[^,], %499[^\n]",
+                   &record.patientID, &record.appointmentID, record.patientName,
+                   record.doctorDept, record.doctorName, record.diagnosis,
+                   record.date, record.prescription);
+
+            int dat = record.appointmentID / 10000; // Extract day from appointment ID
+            if (dat == day)
+                count++;
+        }
+        fclose(file);
+    }
+
+    int ID = day * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
+    return ID;
 }
+
+
 
 void addRecord(){ //function to take information of patient
 
@@ -65,7 +121,10 @@ void addRecord(){ //function to take information of patient
         return;
     }
 
-    printf("Enter     patientID: \t");                          scanf("%d",&record.patientID);   //prompts for input
+    record.patientID = generatepatientID();
+    printf("Generated patient ID: %d\n", record.patientID);
+
+
 
     record.appointmentID = generateappointmentID();    //setting auto generated appointmentID in record.appointmentID
     printf("Generated appointment ID: %d\n", record.appointmentID);   //printing the auto generated appointmentID
@@ -108,7 +167,7 @@ FILE *file = fopen("record.csv", "r");  //file opening in read mood
 
     while (fgets(line, sizeof(line), file)) {         //searching for given information in lines
 
-        fscanf(file, "%d, %d, %49[^,], %24[^,], %49[^,], %499[^,] ,%14[^,] ,%499[^\n]\n", &record.patientID, &record.appointmentID, record.patientName ,record.doctorDept, record.doctorName
+        sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %499[^,] ,%14[^,] ,%499[^\n]\n", &record.patientID, &record.appointmentID, record.patientName ,record.doctorDept, record.doctorName
                , record.diagnosis, record.date ,record.prescription);
 
         if (record.patientID == searchingpatientID && record.appointmentID == searchingappointID)  {      //checking if given and saved information matchs
@@ -167,7 +226,8 @@ int prescription() {
     return 0;
 }
 
-int main(){
+int main()
+{
 
-    prescription();
+  prescription();
 }
