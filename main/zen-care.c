@@ -144,6 +144,7 @@ typedef struct
 
 } Appointment;
 
+int     main();
 int     login(int userType);
 void    logout();
 void    addPatient();
@@ -344,7 +345,7 @@ int generateMedicineID(char medicineName[30]){
                 }
                 else if(choice == 'n' || choice == 'N'){
                     fclose(dispensaryFile);
-                    dispensary();
+                    main();
                 }
             }
         }
@@ -546,7 +547,7 @@ void updateDispensary(int x) {
             updateDispensary(medicineID);
         }
 
-        else if(choice == 'n' || choice == 'N')                     dispensary();
+        else if(choice == 'n' || choice == 'N')                     main();
         else                                                        printf("Wrong Input.\nPlease try again\n");
     }
 
