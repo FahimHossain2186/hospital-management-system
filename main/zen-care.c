@@ -152,10 +152,14 @@ void    viewDoctor();
 void    viewMedicalRecord();
 void    viewDispensary();
 void    bookAppointment();
+int     generatePatientiD();
+int     generateAppointmentiD();
 void    viewAppointment();
 void    updateDispensary();
 void    viewMedicalRecord();
 void    addRecord();
+int     generateAppointmentID();
+int     generatePatientID();
 int     generateMedicineID(char medicineName[30]);
 void    addNewMedicine();
 void    updateDispensary();
@@ -163,18 +167,10 @@ void    medicineCodes();
 void    dispensary();
 
 
-void bookAppointment() {
 
-    Appointment appoint;
 
-    FILE *file = fopen("appointments.csv", "a");    //file opening
 
-    if(!file){
-        printf("Error opening file!\n");    //if searching for file fails
-        return;
-    }
-
-    int generateAppointmentID(){    //function for auto generating appointment id
+    int generateAppointmentiD(){    //function for auto generating appointment id
 
     Time time = currentTime();
     int day = time.day;
@@ -208,7 +204,7 @@ void bookAppointment() {
 
 
 
-    int generatePatientID(){    //function for auto generating patient id
+    int generatePatientiD(){    //function for auto generating patient id
 
     Time time = currentTime();
     int month = time.month;
@@ -237,6 +233,21 @@ void bookAppointment() {
     return ID;
 }
 
+
+
+
+
+
+void bookAppointment() {
+
+    Appointment appoint;
+
+    FILE *file = fopen("appointments.csv", "a");    //file opening
+
+    if(!file){
+        printf("Error opening file!\n");    //if searching for file fails
+        return;
+    }
 
 
     appoint.patientID = generatePatientID();
@@ -584,22 +595,7 @@ void viewDispensary(){
 }
 
 
-
-
-
-void addRecord(){ //function to take information of patient
-
-    MedicalRecord record;     //setting variable for MedicalRecord function
-
-    FILE *file = fopen("record.csv", "a");    //file opening
-
-    if(!file){
-        printf("Error opening file!\n");    //if searching for file fails
-        return;
-    }
-
-
-    int generatePatientID(){    //function for auto generating patient id
+ int generatePatientID(){    //function for auto generating patient id
 
     Time time = currentTime();
     int month = time.month;
@@ -665,6 +661,17 @@ void addRecord(){ //function to take information of patient
 
 
 
+
+void addRecord(){ //function to take information of patient
+
+    MedicalRecord record;     //setting variable for MedicalRecord function
+
+    FILE *file = fopen("record.csv", "a");    //file opening
+
+    if(!file){
+        printf("Error opening file!\n");    //if searching for file fails
+        return;
+    }
 
 
     record.patientID = generatePatientID();
