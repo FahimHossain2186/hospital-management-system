@@ -23,11 +23,11 @@ Time currentTime(){
     time.year = date.tm_year + 1900;
     time.month = date.tm_mon + 1;
     time.day = date.tm_mday;
-
+    
     return time;
 }
 
-typedef struct
+typedef struct 
 {
     int     year;
     int     month;
@@ -35,10 +35,10 @@ typedef struct
 
 } Date;
 
-typedef struct
+typedef struct 
 {
     char    houseNo[12];
-    int     road;
+    int     road; 
     int     postalCode;
     char    area[30];
     char    city[15];
@@ -46,7 +46,7 @@ typedef struct
 
 } Address;
 
-typedef struct
+typedef struct 
 {
     int     id;
     char    name [50];
@@ -59,7 +59,7 @@ typedef struct
 
 } Patient;
 
-typedef struct
+typedef struct 
 {
     int     id;
     char    name[50];
@@ -83,7 +83,7 @@ typedef struct {
     int password;
 } Staff;
 
-typedef struct
+typedef struct 
 {
     int     id;
     char    name[50];
@@ -93,7 +93,7 @@ typedef struct
 
 } Management;
 
-typedef struct
+typedef struct 
 {
     int     id;
     char    name[50];
@@ -103,22 +103,22 @@ typedef struct
 
 } Admin;
 
-typedef struct
+typedef struct 
 {
     int     patientID;
     char    patientName[50];
-
+    
     int     appointmentID;
-
+    
     char    doctorDept[25];
-    char    doctorName[50];
+    char    doctorName[50];    
     char    diagnosis[500];
     char    prescription[500];
     Date    date[15];
-
+    
 } MedicalRecord;
 
-typedef struct
+typedef struct 
 {
     int     medicineID;
     char    name[50];
@@ -152,25 +152,55 @@ void    viewDoctor();
 void    viewMedicalRecord();
 void    viewDispensary();
 void    bookAppointment();
-int     generatePatientiD();
-int     generateAppointmentiD();
 void    viewAppointment();
+void    addRecord();
 void    updateDispensary();
 void    viewMedicalRecord();
+int     generatepatientID();
+int     generateappointmentID();
 void    addRecord();
-int     generateAppointmentID();
-int     generatePatientID();
+void    viewMedicalRecord(); 
 int     generateMedicineID(char medicineName[30]);
 void    addNewMedicine();
 void    updateDispensary();
 void    medicineCodes();
-void    dispensary();
+//void    dispensary();
+int     generatepatientID();
+int     generateappointmentID();
+void    bookAppointment();
+void    viewAppointments();
 
 
+int generatepatientID(){    //function for auto generating patient id
+
+    Time time = currentTime();
+    int month = time.month;
+
+    FILE *file = fopen("appointments.csv", "r");
+    int count = 0;
+
+    Appointment appoint;
 
 
+    char line[2000];
+    if (file) {
+        while (fgets(line, sizeof(line), file)) {
+            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %14[^,^\n]",
+                   &appoint.patientID, &appoint.appointmentID, appoint.patientName,
+                   appoint.doctorDept, appoint.doctorName, appoint.date);
 
-    int generateAppointmentiD(){    //function for auto generating appointment id
+            int mon = appoint.patientID / 10000; // Extract day from appointment ID
+            if (mon == month)
+                count++;
+        }
+        fclose(file);
+    }
+
+    int ID = month * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
+    return ID;
+}
+
+int generateappointmentID(){    //function for auto generating appointment id
 
     Time time = currentTime();
     int day = time.day;
@@ -196,47 +226,9 @@ void    dispensary();
         fclose(file);
     }
 
-    int ID = day * 10000 + (count + 1);
+    int ID = day * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
     return ID;
 }
-
-
-
-
-
-    int generatePatientiD(){    //function for auto generating patient id
-
-    Time time = currentTime();
-    int month = time.month;
-
-    FILE *file = fopen("appointments.csv", "r");
-    int count = 0;
-
-    Appointment appoint;
-
-
-    char line[2000];
-    if (file) {
-        while (fgets(line, sizeof(line), file)) {
-            sscanf(line, "%d, %d, %49[^,], %24[^,], %49[^,], %14[^,^\n]",
-                   &appoint.patientID, &appoint.appointmentID, appoint.patientName,
-                   appoint.doctorDept, appoint.doctorName, appoint.date);
-
-            int mon = appoint.patientID / 10000; // Extract day from appointment ID
-            if (mon == month)
-                count++;
-        }
-        fclose(file);
-    }
-
-    int ID = month * 10000 + (count + 1);
-    return ID;
-}
-
-
-
-
-
 
 void bookAppointment() {
 
@@ -250,10 +242,10 @@ void bookAppointment() {
     }
 
 
-    appoint.patientID = generatePatientID();
+    appoint.patientID = generatepatientID();
     printf("Generated patient ID: %d\n", appoint.patientID);
 
-    appoint.appointmentID = generateAppointmentID();    //setting auto generated appointmentID in record.appointmentID
+    appoint.appointmentID = generateappointmentID();    //setting auto generated appointmentID in record.appointmentID
     printf("Generated appointment ID: %d\n", appoint.appointmentID);   //printing the auto generated appointmentID
 
     printf("Enter patient name:\t");                            scanf(" %[^\n]",appoint.patientName);
@@ -273,7 +265,7 @@ void bookAppointment() {
 }
 
 
-void viewAppointment(){     //function to view saved information
+void viewAppointments(){     //function to view saved information
 
  Appointment appoint;       //setting variable for MedicalRecord function
 
@@ -344,7 +336,7 @@ int generateMedicineID(char medicineName[30]){
                 printf("Do you want to update the quantity of that medicine? (y/n): \t");
                 getchar(); // to consume newline
                 choice = getchar();
-
+            
                 if(choice == 'y' || choice == 'Y'){
                     fclose(dispensaryFile);
                     updateDispensary(med.medicineID);
@@ -354,7 +346,7 @@ int generateMedicineID(char medicineName[30]){
                     fclose(dispensaryFile);
                     dispensary();
                 }
-            }
+            }    
         }
         fclose(dispensaryFile);
     }
@@ -362,11 +354,11 @@ int generateMedicineID(char medicineName[30]){
     char choice;
     printf("Do you want to review the medicine codes?(y/n):\t\t\t");
     scanf(" %c", &choice);
+    
 
-
-    if(choice == 'y' || choice == 'Y')                          medicineCodes();
-
-
+    if(choice == 'y' || choice == 'Y')                          medicineCodes();       
+        
+            
     printf("Enter Department code:                                   \t");
     scanf("%d", &medicineDept);
     printf("Enter Sub-Divisions code:                                \t");
@@ -410,7 +402,7 @@ void medicineCodes(){
     if(!file){
         printf("No records found\n");
         return;
-    }
+    } 
 
     printf("\n----------------------------------------------------------------------------------------------");
     printf("\nDepartment                | Dept-Code | Sub-Divisions                           | Sub-Div-Code\n");
@@ -418,7 +410,7 @@ void medicineCodes(){
 
     char line[200];
     while (fgets(line, sizeof(line), file)) {
-
+        
         if (strlen(line) <= 1) {        // Skip empty lines
             continue;
         }
@@ -426,7 +418,7 @@ void medicineCodes(){
         sscanf(line, "%29[^,], %d, %39[^,], %d", department, &departmentCode, subDivisions, &subDivisionsCode);
         printf("%s | %-9d | %s | %d \n", department, departmentCode, subDivisions, subDivisionsCode);
 
-
+        
     }
 
     printf("----------------------------------------------------------------------------------------------\n");
@@ -450,14 +442,14 @@ void addNewMedicine(){
     printf("Dosage Form (Tablet/Injection/Capsule/Oral Powder/Inhaler):\t");
     scanf(" %[^\n]", med.dosageForm);
     printf("Enter the Generic name:                                    \t");
-    scanf(" %[^\n]", med.genericName);
+    scanf(" %[^\n]", med.genericName); 
     printf("Enter the Group name:                                      \t");
-    scanf(" %[^\n]", med.group);
+    scanf(" %[^\n]", med.group); 
     printf("Enter the Company provider name:                           \t");
-    scanf(" %[^\n]", med.company);
+    scanf(" %[^\n]", med.company); 
     printf("Enter the Amount:                                          \t");
-    scanf(" %d", &med.quantity);
-
+    scanf(" %d", &med.quantity); 
+    
     FILE *file = fopen(FILE_NAME, "a");
 
     if(!file){
@@ -470,7 +462,7 @@ void addNewMedicine(){
     fclose(file);
 
     printf("✅ Medicine added successfully with ID: %d\n", med.medicineID);
-
+    
 }
 
 void updateDispensary(int x) {
@@ -541,10 +533,10 @@ void updateDispensary(int x) {
     while(choice != 'Y' || choice != 'y' ||choice != 'N' ||choice != 'n')
     {
         printf("\nDo you want to update the quantity of that medicine? (y/n): ");
-
+    
         getchar(); // to consume newline
         choice = getchar();
-
+    
         if(choice == 'y' || choice == 'Y')
         {
             int medicineID;
@@ -552,11 +544,11 @@ void updateDispensary(int x) {
             printf("\n\nEnter Medicine ID:                                     \t");
             scanf("%d", &medicineID);
             updateDispensary(medicineID);
-        }
-
+        }                          
+        
         else if(choice == 'n' || choice == 'N')                     dispensary();
         else                                                        printf("Wrong Input.\nPlease try again\n");
-    }
+    }  
 
 }
 
@@ -567,15 +559,15 @@ void viewDispensary(){
     if(!file){
         printf("No records found\n");
         return;
-    }
+    }    
 
     printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     printf("\nID    | Name       | Dosage Form | Generic Name                                | Group                                      | Company                     | Quantity\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-
+    
     char line[300];
     while (fgets(line, sizeof(line), file)) {
-
+        
         if (strlen(line) <= 1) {        // Skip empty lines
             continue;
         }
@@ -584,7 +576,7 @@ void viewDispensary(){
 
         if (sscanf(line, "%d, %49[^,], %19[^,], %49[^,], %99[^,], %39[^,], %d", &med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, &med.quantity) == 7)
             printf("%d | %s | %s | %s | %s | %s | %d \n", med.medicineID, med.name, med.dosageForm, med.genericName, med.group, med.company, med.quantity);
-
+        
     }
 
     printf("\n----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -594,8 +586,7 @@ void viewDispensary(){
     printf("\n\n");
 }
 
-
- int generatePatientID(){    //function for auto generating patient id
+int generatepatientID(){    //function for auto generating patient id
 
     Time time = currentTime();
     int month = time.month;
@@ -629,7 +620,8 @@ void viewDispensary(){
 
 
 
-    int generateAppointmentID(){    //function for auto generating appointment id
+
+int generateappointmentID(){    //function for auto generating appointment id
 
     Time time = currentTime();
     int day = time.day;
@@ -661,7 +653,6 @@ void viewDispensary(){
 
 
 
-
 void addRecord(){ //function to take information of patient
 
     MedicalRecord record;     //setting variable for MedicalRecord function
@@ -673,13 +664,12 @@ void addRecord(){ //function to take information of patient
         return;
     }
 
-
-    record.patientID = generatePatientID();
+    record.patientID = generatepatientID();
     printf("Generated patient ID: %d\n", record.patientID);
 
 
 
-    record.appointmentID = generateAppointmentID();    //setting auto generated appointmentID in record.appointmentID
+    record.appointmentID = generateappointmentID();    //setting auto generated appointmentID in record.appointmentID
     printf("Generated appointment ID: %d\n", record.appointmentID);   //printing the auto generated appointmentID
 
     printf("Enter patient name:\t");                            scanf(" %[^\n]",record.patientName);   //prompts for more inputs
@@ -896,15 +886,9 @@ int main() {
                 scanf("%d", &choice);
 
                 switch (choice) {
-                    case 1:
-                        viewPatient();
-                        break;
-                    case 2:
-                        viewDoctor();
-                        break;
-                    case 3:
-                        viewMedicalRecord();
-                        break;
+                    case 1:             viewPatient();          break;
+                    case 2:             viewDoctor();           break;
+                    case 3:             viewMedicalRecord();    break;
                     case 4:
                         viewDispensary();
                         break;
@@ -1060,33 +1044,43 @@ int main() {
                     default:
                         printf("Invalid Input.\n");
                 }
-            }else if (userType == 6) {
-                printf("1. viewDispensary\n");
-                printf("2. updateDispensary\n");
-                printf("3. Logout\n");
-                printf("Enter your choice: ");
-                scanf("%d", &choice);
+            }
+            else if (userType == 6) {
+                
+                int choice, medicineID;
 
-                switch (choice) {
-                    case 1:
-                        viewDispensary();
-                        break;
-                    case 2:
-                        printf("\n\nEnter Medicine ID:                                     \t");
-                        scanf("%d", &medicineID);
-                        updateDispensary(medicineID);
-                        break;
-                    case 3:
-                        logout();
-                        loggedIn = 0;
-                        break;
-                    default:
-                        printf("Invalid Input.\n");
-                }
+                do{
+                    printf("\n\nHospital Dispensary System\n");
+            
+                    printf("1. Medicine Codes\n");
+                    printf("2. View Dispensary\n");
+                    printf("3. Add new Medicine\n");
+                    printf("4. Update Dispensary\n");
+                    printf("5. Exit\n");
+                    
+                    printf("\nYour choice:                                             \t");
+                    scanf("%d", &choice);
+            
+                    switch (choice){
+            
+                        case 1:         medicineCodes();                break;
+                        case 2:         viewDispensary();               break;
+                        case 3:         addNewMedicine();               break;
+                        case 5:         main();                         break;
+                        case 4:         
+            
+                            printf("\n\nEnter Medicine ID:                                     \t");
+                            scanf("%d", &medicineID);
+                            updateDispensary(medicineID);             
+                            break;
+            
+                        default:        printf("Invalid Choice.\n");    break;
+                    
+                    }
+                }while (choice != 5);
             }
         }
     }
 
     return 0;
-
 }
