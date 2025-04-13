@@ -617,11 +617,6 @@ int generatepatientID1(){    //function for auto generating patient id
     return ID;
 }
 
-
-
-
-
-
 int generateappointmentID1(){    //function for auto generating appointment id
 
     Time time = currentTime();
@@ -651,8 +646,6 @@ int generateappointmentID1(){    //function for auto generating appointment id
     int ID = day * 10000 + (count + 1);  // e.g., 12*10000 + 1 → 120001
     return ID;
 }
-
-
 
 void addRecord(){ //function to take information of patient
 
@@ -751,8 +744,10 @@ int login(int userType) {
         file = fopen("patients.csv", "r");
     else if (userType == 2)
         file = fopen("doctors.csv", "r");
-    else
+    else if (userType == 3)
         file = fopen("staffs.csv", "r");
+    else if (userType == 6)
+        file = fopen("pharmacy.csv", "r");    
 
     if (!file) {
         printf("Error opening file!\n");
@@ -762,7 +757,7 @@ int login(int userType) {
     char line[200];
     while (fgets(line, sizeof(line), file)) {
         int fileID, filePassword;
-        sscanf(line, "%d,%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%*[^,],%d", &fileID, &filePassword);
+        sscanf(line, "%d,,,,,,,,,%d", &fileID, &filePassword);
 
 
         if (fileID == id && filePassword == password) {
@@ -913,7 +908,9 @@ int main() {
                 printf("4. viewDispensary\n");
                 printf("5. bookAppointment\n");
                 printf("6. viewAppointment\n");
-                printf("7. Logout\n");
+                printf("7. Add Medical Record\n");
+                printf("8. Logout\n");
+                
                 printf("Enter your choice: ");
                 scanf("%d", &choice);
 
@@ -937,6 +934,9 @@ int main() {
                         viewAppointment();
                         break;
                     case 7:
+                        addRecord();
+                        break;
+                    case 8:
                         logout();
                         loggedIn = 0;
                         break;
